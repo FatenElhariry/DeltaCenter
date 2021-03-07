@@ -20,6 +20,10 @@ using AutoMapper;
 using System;
 using System.Reflection;
 using DeltaCenter.Infrastructure.Automapper;
+using Microsoft.AspNetCore.Mvc;
+using Web.Controllers;
+using DeltaCenter.Core.Entities;
+using DeltaCenter.Infrastructure.Dtos;
 
 namespace Web.Extensions
 {

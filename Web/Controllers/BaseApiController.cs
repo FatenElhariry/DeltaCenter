@@ -19,7 +19,7 @@ namespace Web.Controllers
     {
         protected readonly IUnitOfWork _unitOfWork;
         protected readonly IMapper _mapper;
-        private readonly IRepository<TEntity> _repo;
+        protected readonly IRepository<TEntity> _repo;
         public BaseApiController(IRepository<TEntity> repo, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
@@ -27,19 +27,19 @@ namespace Web.Controllers
             _repo = repo;
         }
         [HttpGet]
-        public IActionResult Get()
+        public virtual IActionResult Get()
         {
             return Ok(_repo.All.ToList());
         }
         [HttpGet("{Id}")]
-        public IActionResult Get([FromRoute] int Id)
+        public virtual IActionResult Get([FromRoute] int Id)
         {
             return Ok(_repo.Find(Id));
         }
 
 
         [HttpPost]
-        public IActionResult Post(TEntityDto entity)
+        public virtual IActionResult Post(TEntityDto entity)
         {
             var _entity = _mapper.Map<TEntityDto, TEntity>(entity);
             _repo.Insert(_entity);
@@ -48,7 +48,7 @@ namespace Web.Controllers
         }
 
         [HttpPut("{Id}")]
-        public IActionResult Put([FromRoute] int Id, TEntityDto entity)
+        public virtual IActionResult Put([FromRoute] int Id, TEntityDto entity)
         {
             var _entity = _repo.Find(Id);
             _entity = _mapper.Map<TEntityDto, TEntity>(entity, _entity);
@@ -58,7 +58,7 @@ namespace Web.Controllers
         }
 
         [HttpDelete]
-        public IActionResult Delete([FromRoute] int Id)
+        public virtual IActionResult Delete([FromRoute] int Id)
         {
             _repo.Delete(Id);
             _unitOfWork.SaveChanges();
